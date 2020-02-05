@@ -10,5 +10,6 @@ namespace PrimerParcialAp2.Models
     {
         [Key]
         public int Id { get; set; }
+        public DateTime Fecha { get; set; }
     }
 }

@@ -13,7 +13,7 @@ namespace PrimerParcialAp2.Data
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
-            optionsBuilder.UseSqlServer(@"Server = DESKTOP-GFIDBJA\SQLEXPRESS; Database = PrestamosDb; Trusted_Connection = True;");
+            optionsBuilder.UseSqlServer(@"Server = DESKTOP-GFIDBJA\SQLEXPRESS; Database = PrimerParcialAp2Db; Trusted_Connection = True;");
 
         }
     }
