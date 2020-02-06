@@ -19,7 +19,7 @@ namespace PrimerParcialAp2.Models
         [Range(0, 1000, ErrorMessage = "El porcentaje de gananciadebe estar entre 1 y 1000")]
         public int PorcentajeGanancia { get; set; }
 
-        public void articulo()
+        public Articulo()
         {
             ArticuloId = 0;
             Fecha = DateTime.Now;

@@ -30,55 +30,123 @@
         <label for="%Ganancia" class="control-label">%Ganancia</label>
         <InputNumber id="%Ganancia" @bind-Value="articulo.PorcentajeGanancia" class="form-control" />
     </div>
-    <div class="form-group">
-        <button type="submit" class="btn btn-primary">Guardar</button>
-    </div>
-    <div class="form-group">
-        <button type="submit" class="btn btn-primary">Eliminar</button>
+    <div>
+        <button class="btn btn-primary" type="button" @onclick="Limpiar">Limpiar</button>
+        <button class="btn btn-success" type="submit">Guardar</button>
+        <button class="btn btn-danger" type="button" @onclick="Eliminar">Eliminar</button>
     </div>
 
     <ValidationSummary />
 
 </EditForm>
 @code {
-    public Articulo articulo = new Articulo();
+    public Articulo articulo { get; set; }
+    public string Mensaje { get; set; }
 
-    private void Guardar()
+    protected override void OnInitialized()
     {
-        ArticuloController ArticuloController = new ArticuloController();
-        if (ArticuloController.Guardar(articulo))
+        articulo = new Articulo();
+    }
+
+private void Guardar()
+    {
+        ArticuloController db = new ArticuloController();
+
+        try
         {
-            this.articulo = new Articulo();
+            if (articulo.ArticuloId <= 0)
+            {
+                if (db.Guardar(articulo))
+                {
+                    articulo = new Articulo();
+                    Mensaje = "Guardado";
+                }
+                else
+                {
+                    Mensaje = "Error al guardar";
+                }
+            }
+            else
+            {
+                if (db.Modificar(articulo))
+                {
+                    articulo = new Articulo();
+                    Mensaje = "Modificado";
+                }
+                else
+                {
+                    Mensaje = "Error al modificar";
+                }
+            }
+        }
+        catch (Exception)
+        {
+
+            Mensaje = "Error";
+        }
+
+
+    }
+
+private void Eliminar()
+    {
+        ArticuloController db = new ArticuloController();
+
+        try
+        {
+            if (articulo.ArticuloId > 0)
+            {
+                if (db.Eliminar(articulo.ArticuloId))
+                {
+                    Mensaje = "Eliminado";
+                    articulo = new articulos();
+                }
+                else
+                {
+                    Mensaje = "Error al eliminar";
+                }
+            }
+        }
+        catch (Exception)
+        {
+
+            Mensaje = "Error";
         }
     }
 
-    private void Eliminar()
+    private void Limpiar()
     {
-        ArticuloController ArticuloController = new ArticuloController();
-        if (ArticuloController.Eliminar(articulo.ArticuloId))
-        {
-            this.articulo = new Articulo();
-        }
+        articulo = new Articulo();
     }
 
-    private void Modificar()
-    {
-        ArticuloController ArticuloController = new ArticuloController();
-        if (ArticuloController.Modificar(articulo))
-        {
-            this.articulo = new Articulo();
-        }
-    }
     private void Buscar()
     {
-        ArticuloController ArticuloController = new ArticuloController();
-        if (ArticuloController.Buscar(articulo.ArticuloId > 0))
+        ArticuloController db = new ArticuloController();
+        Articulo articuloTemp;
+
+        try
         {
-            this.articulo = articulo(articulo);
-            return articulo;
+            if (articulo.ArticuloId > 0)
+            {
+                articuloTemp = db.Buscar(articulo.ArticuloId);
+
+                if (articuloTemp != null)
+                {
+                    articulo = articuloTemp;
+                }
+                else
+                {
+                    Mensaje = "No se pudo encontrar";
+                }
+
+            }
         }
+        catch (Exception)
+        {
 
-
+            Mensaje = "Hubo un error";
+        }
     }
+
 
 }
