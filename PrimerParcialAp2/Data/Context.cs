@@ -1,15 +1,12 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using PrimerParcialAp2.Models;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+
 
 namespace PrimerParcialAp2.Data
 {
     public class Context : DbContext
     {
-        public DbSet<Entidad> entidad { get; set; }
+        public DbSet<Articulo> articulo { get; set; }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
